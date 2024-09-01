@@ -5,13 +5,13 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = var.general_config["env"] == "stg" ? "${var.general_config["project"]}-vpc" : "${var.general_config["project"]}-${var.general_config["env"]}-vpc"
+    Name = "${var.general_config["project"]}-${var.general_config["env"]}-vpc"
   }
 }
 
 ##Public Subnets
 resource "aws_subnet" "public_subnets" {
-  vpc_id                  = var.general_config["env"] == "stg" ? aws_vpc.vpc.id : var.vpc_id
+  vpc_id                  = aws_vpc.vpc.id
   for_each                = var.public_subnets.subnets
   cidr_block              = each.value.cidr
   availability_zone       = each.value.az
@@ -24,7 +24,7 @@ resource "aws_subnet" "public_subnets" {
 
 ##Private Subnets
 resource "aws_subnet" "private_subnets" {
-  vpc_id            = var.general_config["env"] == "stg" ? aws_vpc.vpc.id : var.vpc_id
+  vpc_id            = aws_vpc.vpc.id
   for_each          = var.private_subnets.subnets
   cidr_block        = each.value.cidr
   availability_zone = each.value.az
@@ -37,16 +37,16 @@ resource "aws_subnet" "private_subnets" {
 
 ##Internet Gateway
 resource "aws_internet_gateway" "internet_gateway" {
-  vpc_id = var.general_config["env"] == "stg" ? var.vpc_id : null
+  vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = var.general_config["env"] == "stg" ? "${var.general_config["project"]}-igw" : "${var.general_config["project"]}-${var.general_config["env"]}-igw"
+    Name = "${var.general_config["project"]}-${var.general_config["env"]}-igw"
   }
 }
 
 ##Public Route Tables
 resource "aws_route_table" "public_route_tables" {
-  vpc_id   = var.general_config["env"] == "stg" ? aws_vpc.vpc.id : var.vpc_id
+  vpc_id   = aws_vpc.vpc.id
   for_each = var.public_subnets.subnets
 
   tags = {
@@ -56,7 +56,7 @@ resource "aws_route_table" "public_route_tables" {
 
 ##Public Internet Gateway
 resource "aws_route" "public_internet_gateway" {
-  gateway_id             = var.general_config["env"] == "stg" ? aws_internet_gateway.internet_gateway.id : var.internet_gateway_id
+  gateway_id             = aws_internet_gateway.internet_gateway.id
   for_each               = var.public_subnets.subnets
   route_table_id         = aws_route_table.public_route_tables[each.key].id
   destination_cidr_block = "0.0.0.0/0"
@@ -71,7 +71,7 @@ resource "aws_route_table_association" "public_route_associations" {
 
 ##Private Route Tables
 resource "aws_route_table" "private_route_tables" {
-  vpc_id   = var.general_config["env"] == "stg" ? aws_vpc.vpc.id : var.vpc_id
+  vpc_id   = aws_vpc.vpc.id
   for_each = var.private_subnets.subnets
 
   tags = {
