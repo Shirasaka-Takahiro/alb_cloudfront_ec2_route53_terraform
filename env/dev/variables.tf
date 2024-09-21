@@ -109,7 +109,7 @@ variable "ami" {
 
 variable "ec2_count" {
   description = "Number of EC2 instance"
-  default = "1"
+  default     = "1"
 }
 
 variable "instance_type" {

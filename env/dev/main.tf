@@ -108,7 +108,7 @@ module "ec2" {
   source = "../../module/ec2"
 
   general_config    = var.general_config
-  ec2_count = var.ec2_count
+  ec2_count         = var.ec2_count
   ami               = var.ami
   public_subnet_ids = module.network.public_subnet_ids
   internal_sg_id    = module.internal_sg.security_group_id
@@ -150,21 +150,21 @@ module "s3_alb_access_log" {
 module "naked_domain" {
   source = "../../module/route53"
 
-  zone_id      = var.zone_id
-  zone_name    = "quick-infra.net"
-  record_type  = "A"
-  distribution_domain_name = module.cloudfront.distribution_domain_name
-  distribution_hosted_zone_id  = module.cloudfront.distribution_hosted_zone_id
+  zone_id                     = var.zone_id
+  zone_name                   = "quick-infra.net"
+  record_type                 = "A"
+  distribution_domain_name    = module.cloudfront.distribution_domain_name
+  distribution_hosted_zone_id = module.cloudfront.distribution_hosted_zone_id
 }
 
 module "sub_dmain_1" {
   source = "../../module/route53"
 
-  zone_id      = var.zone_id
-  zone_name    = "www.onya-lab.site"
-  record_type  = "A"
-  distribution_domain_name = module.cloudfront.distribution_domain_name
-  distribution_hosted_zone_id  = module.cloudfront.distribution_hosted_zone_id
+  zone_id                     = var.zone_id
+  zone_name                   = "www"
+  record_type                 = "A"
+  distribution_domain_name    = module.cloudfront.distribution_domain_name
+  distribution_hosted_zone_id = module.cloudfront.distribution_hosted_zone_id
 }
 
 ##ACM
@@ -188,9 +188,9 @@ module "acm_cloudfront" {
 module "cloudfront" {
   source = "../../module/cloudfront"
 
-  general_config                           = var.general_config
-  cf_cname                                = var.cf_cname
-  domain_name                              = var.domain_name
-  alb_id                                   = module.alb.alb_id
-  cert_cloudfront_arn                      = module.acm_cloudfront.cert_cloudfront_arn
+  general_config      = var.general_config
+  cf_cname            = var.cf_cname
+  domain_name         = var.domain_name
+  alb_id              = module.alb.alb_id
+  cert_cloudfront_arn = module.acm_cloudfront.cert_cloudfront_arn
 }
