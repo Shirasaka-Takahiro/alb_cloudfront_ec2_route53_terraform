@@ -9,7 +9,7 @@ resource "aws_cloudfront_distribution" "default" {
     domain_name = var.domain_name
     origin_id   = var.alb_id
     custom_origin_config {
-      http_port               = 80
+      http_port                = 80
       https_port               = 443
       origin_keepalive_timeout = 5
       origin_protocol_policy   = "https-only"
@@ -40,9 +40,15 @@ resource "aws_cloudfront_distribution" "default" {
     cached_methods   = ["HEAD", "GET", "OPTIONS"]
     target_origin_id = var.alb_id
 
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 10
-    max_ttl                = 60
+    viewer_protocol_policy   = "redirect-to-https"
+    min_ttl                  = 0
+    default_ttl              = 10
+    max_ttl                  = 60
+    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.default.id
   }
+}
+
+## Managed Origin Request Policy
+data "aws_cloudfront_origin_request_policy" "default" {
+  name = "Managed-AllViewerAndCloudFrontHeaders-2022-06"
 }
