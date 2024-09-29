@@ -6,8 +6,8 @@ resource "aws_cloudfront_distribution" "default" {
   ]
 
   origin {
-    domain_name = var.domain_name
-    origin_id   = var.alb_id
+    domain_name = var.alb_id
+    origin_id   = var.domain_name
     custom_origin_config {
       http_port                = 80
       https_port               = 443

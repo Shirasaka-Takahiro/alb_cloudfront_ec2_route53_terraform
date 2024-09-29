@@ -104,7 +104,7 @@ variable "operation_sg_3_cidr" {
 ##EC2
 variable "ami" {
   description = "ID of AMI to use for ec2 instance"
-  default     = "ami-0bba69335379e17f8"
+  default     = "ami-0abb7b60d1c69c211"
 }
 
 variable "ec2_count" {
