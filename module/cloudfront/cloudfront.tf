@@ -6,8 +6,8 @@ resource "aws_cloudfront_distribution" "default" {
   ]
 
   origin {
-    domain_name = var.alb_id
-    origin_id   = var.domain_name
+    domain_name = var.alb_dns_name
+    origin_id   = var.alb_dns_name
     custom_origin_config {
       http_port                = 80
       https_port               = 443
@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "default" {
     cache_policy_id  = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
     allowed_methods  = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
     cached_methods   = ["HEAD", "GET", "OPTIONS"]
-    target_origin_id = var.alb_id
+    target_origin_id = var.alb_dns_name
 
     viewer_protocol_policy   = "redirect-to-https"
     min_ttl                  = 0

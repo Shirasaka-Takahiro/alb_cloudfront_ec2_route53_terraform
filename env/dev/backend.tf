@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.8.5"
+  required_version = "~> 1.10.2"
   backend "s3" {
     bucket  = "example-dev-tfstate-bucket"
     region  = "ap-northeast-1"

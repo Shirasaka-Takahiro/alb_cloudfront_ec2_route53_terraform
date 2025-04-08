@@ -191,6 +191,6 @@ module "cloudfront" {
   general_config      = var.general_config
   cf_cname            = var.cf_cname
   domain_name         = var.domain_name
-  alb_id              = module.alb.alb_id
+  alb_dns_name = module.alb.alb_dns_name
   cert_cloudfront_arn = module.acm_cloudfront.cert_cloudfront_arn
 }

@@ -3,5 +3,5 @@ variable "general_config" {
 }
 variable "cf_cname" {}
 variable "domain_name" {}
-variable "alb_id" {}
+variable "alb_dns_name" {}
 variable "cert_cloudfront_arn" {}
